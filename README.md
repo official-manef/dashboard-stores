@@ -19,7 +19,7 @@ Read from `package.json`.
 - Next.js 14.2.23 (App Router), React 18
 - TypeScript 5 (`strict`), Tailwind CSS 3
 - shadcn/ui on Radix primitives
-- `next-themes` for theming, `react-dnd` for the (unused) drag layer, `react-hook-form`, `stripe`, `@supabase/*` and `tempo-devtools` are installed but not imported by anything in `src/`
+- `next-themes` for theming. `react-dnd` for the (unused) drag layer. `react-hook-form`, `stripe`, `@supabase/*` and `tempo-devtools` are installed but not imported by anything in `src/`
 - npm, with `package-lock.json` as the only lockfile
 
 ## Run
@@ -53,15 +53,15 @@ There is no `lint` script (no ESLint config or dependency is installed) and no t
 
 ## Layout
 
-- `src/app/`, routes: `page.tsx` (redirect), `dashboard/page.tsx`, `layout.tsx`, `globals.css`
-- `src/components/dashboard/`, `DashboardLayout`, `Sidebar`, `WidgetGrid`, `DevTools`, `WidgetMarketplace`, `WidgetSearch`
-- `src/components/widget-editor/`, `WidgetEditor`, `WidgetTester`, `CodeEditor`
-- `src/components/ui/`, shadcn/ui output, generated
-- `src/lib/context/`, `DashboardContext`, `ThemeContext`
-- `src/lib/hooks/`, `useLocalStorage`, `useWidgetConfig`, `useWidgetState`, `useWidgetStorage`
-- `src/widgets/`, five widgets and the registry in `index.ts`
-- `scripts/env-check.mjs`, env name diff
-- `docs/`, widget development guide and menu widget guide
+- `src/app/`: `page.tsx` (redirect), `dashboard/page.tsx`, `layout.tsx`, `globals.css`
+- `src/components/dashboard/`: `DashboardLayout`, `Sidebar`, `WidgetGrid`, `DevTools`, `WidgetMarketplace`, `WidgetSearch`
+- `src/components/widget-editor/`: `WidgetEditor`, `WidgetTester`, `CodeEditor`
+- `src/components/ui/`: shadcn/ui output, generated
+- `src/lib/context/`: `DashboardContext`, `ThemeContext`
+- `src/lib/hooks/`: `useLocalStorage`, `useWidgetConfig`, `useWidgetState`, `useWidgetStorage`
+- `src/widgets/`: five widgets and the registry in `index.tsx`
+- `scripts/env-check.mjs`: env name diff
+- `docs/`: widget development guide and menu widget guide
 
 ## Env
 
