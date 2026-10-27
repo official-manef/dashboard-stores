@@ -56,31 +56,6 @@ const DevTools = ({
       } catch (e) {
         console.error("Failed to parse stored widget configs", e);
       }
-    } else {
-      // Set default widget configs if none exist
-      const defaultConfigs: WidgetConfig[] = [
-        {
-          id: "widget-1",
-          name: "Analytics Dashboard",
-          config: {
-            displayMode: "chart",
-            refreshInterval: 30,
-            showLegend: true,
-          },
-        },
-        {
-          id: "widget-2",
-          name: "User Activity",
-          config: { displayMode: "table", maxItems: 10, sortBy: "date" },
-        },
-        {
-          id: "widget-3",
-          name: "System Status",
-          config: { alertThreshold: 90, showNotifications: true },
-        },
-      ];
-      setWidgetConfigs(defaultConfigs);
-      localStorage.setItem("widget-configs", JSON.stringify(defaultConfigs));
     }
 
     // Get all local storage keys
