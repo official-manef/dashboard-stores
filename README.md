@@ -10,7 +10,7 @@ Read this before trusting any screen.
 - `/` redirects to `/dashboard`. It used to render an empty div.
 - The sidebar lists only `/dashboard`. The History, Starred, Settings, Models, Documentation and Projects entries pointed at `#` and have been removed.
 - The widget marketplace (`src/components/dashboard/WidgetMarketplace.tsx`) exists as a component but no route renders it.
-- No test suite. `npm run build`, `npm run typecheck` and `npm run lint` are the checks.
+- No test suite. `bun run build`, `bun run typecheck` and `bun run lint` are the checks.
 
 ## Stack
 
@@ -20,14 +20,14 @@ Read from `package.json`.
 - TypeScript 5 (`strict`), Tailwind CSS 3
 - shadcn/ui on Radix primitives
 - `next-themes` for theming. `react-dnd` for the (unused) drag layer. `react-hook-form`, `stripe`, `@supabase/*` and `tempo-devtools` are installed but not imported by anything in `src/`
-- npm, with `package-lock.json` as the only lockfile
+- bun, with `bun.lock` as the only lockfile
 
 ## Run
 
 ```sh
-npm ci
+bun install
 cp .env.example .env.local   # optional; only NEXT_PUBLIC_TEMPO is read
-npm run dev
+bun run dev
 ```
 
 Then open <http://localhost:3000/dashboard>. `/` redirects there.
@@ -35,19 +35,19 @@ Then open <http://localhost:3000/dashboard>. `/` redirects there.
 Production:
 
 ```sh
-npm run build
-npm start
+bun run build
+bun run start
 ```
 
 ## Scripts
 
 | what | command |
 |---|---|
-| dev | `npm run dev` |
-| build | `npm run build` |
-| start | `npm start` |
-| typecheck | `npm run typecheck` |
-| env check | `npm run env:check` |
+| dev | `bun run dev` |
+| build | `bun run build` |
+| start | `bun run start` |
+| typecheck | `bun run typecheck` |
+| env check | `bun run env:check` |
 
 There is no `lint` script (no ESLint config or dependency is installed) and no test script.
 
@@ -67,7 +67,7 @@ There is no `lint` script (no ESLint config or dependency is installed) and no t
 
 One name is read by the code: `NEXT_PUBLIC_TEMPO`, in `src/components/tempo-init.tsx` and `next.config.js`. It switches on the Tempo devtools overlay and the SWC plugin. Leave it unset locally.
 
-`npm run env:check` fails if the code reads a name `.env.example` does not declare.
+`bun run env:check` fails if the code reads a name `.env.example` does not declare.
 
 ## Design direction
 
