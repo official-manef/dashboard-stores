@@ -174,7 +174,9 @@ const DevTools = ({
     <Card
       className={cn(
         "fixed bottom-4 right-4 z-50 overflow-hidden transition-all duration-300 bg-background border-border",
-        expanded ? "w-[350px] h-[400px]" : "w-[50px] h-[50px]",
+        expanded
+          ? "w-[min(350px,calc(100vw-2rem))] h-[min(400px,calc(100dvh-2rem))]"
+          : "w-[50px] h-[50px]",
       )}
     >
       {expanded ? (
