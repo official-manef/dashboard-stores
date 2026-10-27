@@ -43,7 +43,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
 
-    if (theme === "system") {
+    const activeTheme = theme ?? "system";
+
+    if (activeTheme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
         .matches
         ? "dark"
@@ -51,8 +53,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
       root.classList.add(systemTheme);
       setIsDarkMode(systemTheme === "dark");
     } else {
-      root.classList.add(theme);
-      setIsDarkMode(theme === "dark");
+      root.classList.add(activeTheme);
+      setIsDarkMode(activeTheme === "dark");
     }
   }, [theme, setIsDarkMode]);
 

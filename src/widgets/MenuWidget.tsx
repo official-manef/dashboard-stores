@@ -147,12 +147,13 @@ const MenuWidget: React.FC<MenuWidgetProps> = ({
             transition-colors duration-200
           `}
             onClick={() =>
-              !item.disabled && handleItemClick(item.id, hasChildren)
+              !item.disabled && handleItemClick(item.id, Boolean(hasChildren))
             }
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                !item.disabled && handleItemClick(item.id, hasChildren);
+                !item.disabled &&
+                  handleItemClick(item.id, Boolean(hasChildren));
               }
             }}
           >
@@ -251,9 +252,9 @@ export const widgetMetadata = {
     "A customizable menu widget for navigation and hierarchical data",
   version: "1.0.0",
   author: "Enterprise Widget Platform",
-  category: "tools",
+  category: "tools" as const,
   icon: "Menu",
-  defaultSize: "medium",
+  defaultSize: "medium" as const,
   defaultConfig: {
     menuItems: [
       {
