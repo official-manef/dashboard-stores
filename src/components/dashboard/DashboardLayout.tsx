@@ -90,6 +90,8 @@ const DashboardLayout = () => {
               variant="outline"
               size="sm"
               onClick={() => setShowDevTools(!showDevTools)}
+              aria-label={showDevTools ? "Hide DevTools" : "Show DevTools"}
+              aria-expanded={showDevTools}
               className="flex items-center gap-2"
             >
               <Settings size={16} />
