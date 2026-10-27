@@ -1,20 +1,13 @@
 /** @type {import('next').NextConfig} */
 
+// Next 16 builds with Turbopack, which does not support SWC wasm plugins, so the
+// tempo-devtools `swcPlugins` entry is gone. tempo-devtools itself marks Next 15+
+// as unsupported for that plugin. The TempoDevtools runtime in
+// src/components/tempo-init.tsx is unaffected and still gated on NEXT_PUBLIC_TEMPO.
 const nextConfig = {
-    images: {
-        domains: ['images.unsplash.com'],
-    }
+  images: {
+    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+  },
 };
-
-if (process.env.NEXT_PUBLIC_TEMPO) {
-    nextConfig["experimental"] = {
-        // NextJS 13.4.8 up to 14.1.3:
-        // swcPlugins: [[require.resolve("tempo-devtools/swc/0.86"), {}]],
-        // NextJS 14.1.3 to 14.2.11:
-        swcPlugins: [[require.resolve("tempo-devtools/swc/0.90"), {}]]
-
-        // NextJS 15+ (Not yet supported, coming soon)
-    }
-}
 
 module.exports = nextConfig;
