@@ -21,43 +21,39 @@ const DataDisplayWidget: React.FC<DataDisplayWidgetProps> = ({
   size = "small",
   config = {},
 }) => {
-  const {
-    endpoint = "https://api.example.com/data",
-    lastSync = "2 minutes ago",
-    recordCount = 1245,
-    fields = [],
-  } = config;
+  const { endpoint, lastSync, recordCount, fields = [] } = config;
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex items-center mb-4">
-        <Database className="h-5 w-5 mr-2 text-primary" />
-        <h3 className="text-lg font-medium">{title}</h3>
+    <div className="flex h-full flex-col">
+      <div className="mb-4 flex items-center">
+        <Database className="mr-2 h-5 w-5 text-primary" />
+        <h3 className="truncate text-lg font-medium">{title}</h3>
       </div>
 
       <div className="w-full">
-        <div className="flex justify-between items-center mb-2">
+        <div className="mb-2 flex items-center justify-between">
           <span className="text-sm font-medium">API Endpoint</span>
-          <span className="text-xs text-muted-foreground">Connected</span>
         </div>
-        <div className="p-2 bg-muted rounded-md font-mono text-xs mb-4 truncate">
-          {endpoint}
+        <div className="mb-4 truncate rounded-md bg-muted p-2 font-mono text-xs">
+          {endpoint ?? "Not configured"}
         </div>
 
-        <div className="flex justify-between items-center mb-2">
+        <div className="mb-2 flex items-center justify-between">
           <span className="text-sm font-medium">Last Sync</span>
-          <span className="text-xs text-muted-foreground">{lastSync}</span>
-        </div>
-
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-sm font-medium">Records</span>
           <span className="text-xs text-muted-foreground">
-            {recordCount.toLocaleString()}
+            {lastSync ?? "Never"}
           </span>
         </div>
 
-        {fields && fields.length > 0 && (
-          <div className="border rounded-md overflow-hidden">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-sm font-medium">Records</span>
+          <span className="text-xs text-muted-foreground">
+            {recordCount === undefined ? "Unknown" : recordCount.toLocaleString()}
+          </span>
+        </div>
+
+        {fields.length > 0 ? (
+          <div className="overflow-hidden rounded-md border">
             <table className="min-w-full divide-y divide-border">
               <thead className="bg-muted/50">
                 <tr>
@@ -73,7 +69,7 @@ const DataDisplayWidget: React.FC<DataDisplayWidgetProps> = ({
                 {fields.map((field, index) => (
                   <tr key={index}>
                     <td className="px-3 py-2 text-sm">{field.name}</td>
-                    <td className="px-3 py-2 text-sm font-mono truncate max-w-[150px]">
+                    <td className="max-w-[150px] truncate px-3 py-2 font-mono text-sm">
                       {field.value}
                     </td>
                   </tr>
@@ -81,6 +77,11 @@ const DataDisplayWidget: React.FC<DataDisplayWidgetProps> = ({
               </tbody>
             </table>
           </div>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            No fields configured. This widget shows whatever the endpoint
+            returns once one is set; it does not connect to anything by default.
+          </p>
         )}
       </div>
     </div>
@@ -89,22 +90,14 @@ const DataDisplayWidget: React.FC<DataDisplayWidgetProps> = ({
 
 export const widgetMetadata = {
   name: "Data Display",
-  description: "A widget to display data from an API endpoint",
+  description: "Shows the fields returned by an API endpoint you configure",
   version: "1.0.0",
-  author: "Enterprise Widget Platform",
+  author: "dashboard-stores",
   category: "data" as const,
   icon: "Database",
   defaultSize: "small" as const,
   defaultConfig: {
-    endpoint: "https://api.example.com/widgets/data",
-    lastSync: "2 minutes ago",
-    recordCount: 1245,
-    fields: [
-      { name: "ID", value: "widget-123" },
-      { name: "Status", value: "active" },
-      { name: "Created", value: "2023-06-15" },
-      { name: "Owner", value: "admin@example.com" },
-    ],
+    fields: [],
   },
 };
 
