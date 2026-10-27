@@ -1,55 +1,82 @@
 # Dashboard Stores
 
-Dashboard berbasis Next.js untuk menampilkan dan mengelola widget. Repositori ini berisi antarmuka dashboard, kumpulan widget, alat pengaturan widget, serta panduan pengembangan.
+A widget dashboard shell in Next.js. It has one working route, `/dashboard`, which renders a sidebar, an empty widget grid and a developer panel for editing widget configuration. Everything it stores lives in the browser's localStorage. There is no backend, no account and no data source.
 
-## Mulai
+## Status
 
-Prasyarat: Node.js dan npm.
+Read this before trusting any screen.
 
-```bash
-npm install
+- `/dashboard` renders. The widget grid is empty because no widgets are stored.
+- `/` redirects to `/dashboard`. It used to render an empty div.
+- The sidebar lists only `/dashboard`. The History, Starred, Settings, Models, Documentation and Projects entries pointed at `#` and have been removed.
+- The widget marketplace (`src/components/dashboard/WidgetMarketplace.tsx`) exists as a component but no route renders it.
+- No test suite. `npm run build`, `npm run typecheck` and `npm run lint` are the checks.
+
+## Stack
+
+Read from `package.json`.
+
+- Next.js 14.2.23 (App Router), React 18
+- TypeScript 5 (`strict`), Tailwind CSS 3
+- shadcn/ui on Radix primitives
+- `next-themes` for theming, `react-dnd` for the (unused) drag layer, `react-hook-form`, `stripe`, `@supabase/*` and `tempo-devtools` are installed but not imported by anything in `src/`
+- npm, with `package-lock.json` as the only lockfile
+
+## Run
+
+```sh
+npm ci
+cp .env.example .env.local   # optional; only NEXT_PUBLIC_TEMPO is read
 npm run dev
 ```
 
-Buka <http://localhost:3000/dashboard> untuk melihat dashboard. Halaman utama `/` saat ini kosong.
+Then open <http://localhost:3000/dashboard>. `/` redirects there.
 
-Perintah lain yang tersedia:
+Production:
 
-```bash
+```sh
 npm run build
-npm run start
+npm start
 ```
 
-`npm run start` menjalankan server produksi Next.js; jalankan `npm run build` terlebih dahulu.
+## Scripts
 
-## Cakupan saat ini
+| what | command |
+|---|---|
+| dev | `npm run dev` |
+| build | `npm run build` |
+| start | `npm start` |
+| typecheck | `npm run typecheck` |
+| env check | `npm run env:check` |
 
-- Halaman dashboard dengan layout dan sidebar.
-- Widget terdaftar, termasuk Analytics, Code Editor, Data Display, Menu, dan Status.
-- Antarmuka marketplace widget dengan pencarian, filter kategori, dan alur untuk menambahkan widget.
-- Komponen untuk grid, pencarian, alat pengembang, editor widget, serta pengaturan tema.
-- Hook dan konteks untuk konfigurasi, status, penyimpanan widget, dashboard, dan tema.
+There is no `lint` script (no ESLint config or dependency is installed) and no test script.
 
-Keberadaan komponen tidak berarti seluruh fungsi lanjutan telah selesai. Rencana proyek masih mencantumkan pekerjaan yang belum tuntas, termasuk validasi widget, pengujian dan analisis performa, impor/ekspor, serta pengelolaan pengguna.
+## Layout
 
-## Struktur repositori
+- `src/app/` — routes: `page.tsx` (redirect), `dashboard/page.tsx`, `layout.tsx`, `globals.css`
+- `src/components/dashboard/` — `DashboardLayout`, `Sidebar`, `WidgetGrid`, `DevTools`, `WidgetMarketplace`, `WidgetSearch`
+- `src/components/widget-editor/` — `WidgetEditor`, `WidgetTester`, `CodeEditor`
+- `src/components/ui/` — shadcn/ui output, generated
+- `src/lib/context/` — `DashboardContext`, `ThemeContext`
+- `src/lib/hooks/` — `useLocalStorage`, `useWidgetConfig`, `useWidgetState`, `useWidgetStorage`
+- `src/widgets/` — five widgets and the registry in `index.ts`
+- `scripts/env-check.mjs` — env name diff
+- `docs/` — widget development guide and menu widget guide
 
-- `src/app/` — halaman dan layout Next.js; dashboard berada di `src/app/dashboard/page.tsx`.
-- `src/components/dashboard/` — layout dashboard, sidebar, grid, marketplace, pencarian, dan alat pengembang.
-- `src/components/widget-editor/` — komponen editor dan tester widget.
-- `src/lib/` — konteks, hook, dan utilitas bersama.
-- `src/widgets/` — widget dan registrinya.
-- `docs/` — panduan pengembangan widget dan widget Menu.
-- `PLAN.md` — rencana pengembangan.
-- `PROJECT.md` — ringkasan proyek dan pedoman pengembangan.
+## Env
 
-## Catatan batasan
+One name is read by the code: `NEXT_PUBLIC_TEMPO`, in `src/components/tempo-init.tsx` and `next.config.js`. It switches on the Tempo devtools overlay and the SWC plugin. Leave it unset locally.
 
-- Halaman `/` kosong; gunakan `/dashboard`.
-- Proyek mendokumentasikan penggunaan penyimpanan lokal browser untuk preferensi dan konfigurasi. Jangan menganggapnya sebagai penyimpanan bersama atau backend.
-- `PLAN.md` menandai sejumlah kemampuan sebagai belum selesai. Periksa status di sana sebelum mengandalkan fitur yang direncanakan.
-- `package.json` tidak mendefinisikan skrip pengujian.
+`npm run env:check` fails if the code reads a name `.env.example` does not declare.
 
-## Verifikasi
+## Design direction
 
-Perintah pengembangan, build, dan start tersedia di `package.json`. Tidak ada hasil eksekusi perintah atau pengujian yang dinyatakan di sini.
+`DESIGN.md` holds the palette with computed contrast ratios, the type scale and the ENERGY/RHYTHM/MOTION dials. Read it before any visual change.
+
+## What is not built
+
+- Widget persistence beyond this browser's localStorage.
+- Any chart renderer. `AnalyticsWidget` says so rather than drawing a fake series.
+- Any API connection. `DataDisplayWidget` shows what you configure and nothing by default.
+- Authentication. There is no user, so the sidebar shows no profile.
+- Any test.
