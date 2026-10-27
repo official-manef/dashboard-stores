@@ -1,4 +1,4 @@
-# Dashboard Stores — design direction
+# Dashboard Stores, design direction
 
 ## What this is
 
