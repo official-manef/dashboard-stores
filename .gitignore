@@ -49,3 +49,7 @@ node_modules/
 .git
 
 .github/
+
+# Local MSO integration/credential context (never commit)
+mso.md
+.mso/mso.md
